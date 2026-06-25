@@ -1,0 +1,19 @@
+services:
+  nexus:
+    build: .
+    container_name: nexus-enterprise
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "file:/data/nexus.db"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+      SESSION_SECRET: "change-this-before-production"
+      STORAGE_DRIVER: "local"
+      STORAGE_LOCAL_PATH: "/data/uploads"
+    volumes:
+      - nexus_data:/data
+
+volumes:
+  nexus_data:
+
