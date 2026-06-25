@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
+import { getCurrentSession } from "@/server/auth/current-session";
 import { db } from "@/server/db/client";
 import { customerInput } from "@/server/modules/customers/customer-schema";
 
 const tenantCode = "NEXUS-SH-001";
 
 export async function GET() {
+  if (!(await getCurrentSession())) return NextResponse.json({ error: "未登录" }, { status: 401 });
   const tenant = await db.tenant.findUnique({ where: { code: tenantCode } });
   if (!tenant) return NextResponse.json({ data: [] });
   const data = await db.customer.findMany({
@@ -16,6 +18,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await getCurrentSession())) return NextResponse.json({ error: "未登录" }, { status: 401 });
   const parsed = customerInput.safeParse(await request.json());
   if (!parsed.success) {
     return NextResponse.json({ error: "客户数据校验失败", details: parsed.error.flatten() }, { status: 400 });

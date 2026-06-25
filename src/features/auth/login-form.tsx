@@ -5,8 +5,6 @@ import { Alert, Button, Checkbox, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { validateDemoLogin } from "@/lib/demo-session";
-
 import styles from "./login.module.css";
 
 export function LoginForm() {
@@ -17,15 +15,19 @@ export function LoginForm() {
   const submit = async (values: { email: string; password: string }) => {
     setLoading(true);
     setError("");
-    await new Promise((resolve) => setTimeout(resolve, 450));
-    const user = validateDemoLogin(values.email, values.password);
-    if (!user) {
-      setError("邮箱或密码不正确，请使用页面中的演示账户。");
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    if (!response.ok) {
+      const result = (await response.json()) as { error?: string };
+      setError(result.error ?? "登录失败，请稍后重试。");
       setLoading(false);
       return;
     }
-    document.cookie = `nexus-demo-session=${encodeURIComponent(user.email)}; Path=/; SameSite=Lax`;
     router.push("/dashboard");
+    router.refresh();
   };
 
   return (
@@ -52,4 +54,3 @@ export function LoginForm() {
     </Form>
   );
 }
-

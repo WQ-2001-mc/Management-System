@@ -80,7 +80,13 @@ SQLite 数据和上传文件将保存在 `nexus_data` volume 中。生产环境�
 示例：
 
 ```bash
+curl -c /tmp/nexus.cookies \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin@nexus.local","password":"Nexus@2026"}' \
+  http://localhost:3000/api/auth/login
+
 curl -X POST http://localhost:3000/api/customers \
+  -b /tmp/nexus.cookies \
   -H 'Content-Type: application/json' \
   -d '{"name":"上海智联科技有限公司","level":"A","industry":"科技服务","region":"华东","owner":"李明远","value":680000}'
 ```
@@ -94,4 +100,3 @@ GitHub Actions 在每次提交和 Pull Request 上执行 Prisma Client 生成、
 ## License
 
 MIT
-
