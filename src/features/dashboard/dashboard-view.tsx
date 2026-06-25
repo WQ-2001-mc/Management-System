@@ -112,12 +112,12 @@ export function DashboardView() {
         <article className={styles.panel}>
           <div className={styles.panelHeader}><h2>目标达成</h2><Button type="text" icon={<MoreOutlined />} /></div>
           <div className={styles.goalContent}>
-            <Progress type="dashboard" percent={72} size={176} strokeColor={{ "0%": "#6869f1", "100%": "#25bad7" }} trailColor="#eef0f6" format={(percent) => <span className={styles.goalPercent}>{percent}%<small>年度营收目标</small></span>} />
+            <Progress type="dashboard" percent={72} size={176} strokeColor={{ "0%": "#6869f1", "100%": "#25bad7" }} railColor="#eef0f6" format={(percent) => <span className={styles.goalPercent}>{percent}%<small>年度营收目标</small></span>} />
             <div className={styles.goalBars}>
               {[["营收目标", 72, "24,500,000", "#5b5ce2"], ["回款目标", 65, "18,000,000", "#18b6d5"], ["利润目标", 58, "6,200,000", "#10a779"]].map(([label, value, total, color]) => (
                 <div key={String(label)}>
                   <div><span>{label}</span><strong>{total}</strong></div>
-                  <Progress percent={Number(value)} showInfo={false} strokeColor={String(color)} trailColor="#eef0f5" />
+                  <Progress percent={Number(value)} showInfo={false} strokeColor={String(color)} railColor="#eef0f5" />
                 </div>
               ))}
             </div>
@@ -206,4 +206,3 @@ export function DashboardView() {
     </div>
   );
 }
-
