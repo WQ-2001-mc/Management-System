@@ -1,0 +1,207 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(380px, .9fr) minmax(520px, 1.1fr);
+  min-height: 100vh;
+  background: #f7f8fc;
+}
+
+.visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 54px;
+  color: white;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(57, 199, 223, .27), transparent 28%),
+    radial-gradient(circle at 20% 78%, rgba(91, 92, 226, .4), transparent 36%),
+    #111725;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-weight: 800;
+  font-size: 20px;
+  background: linear-gradient(135deg, #7274ff, #2ac5e2);
+  border-radius: 13px 5px 13px 5px;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  letter-spacing: .15em;
+}
+
+.brand small {
+  margin-top: 4px;
+  color: #9da8bb;
+}
+
+.visualCopy {
+  max-width: 620px;
+  margin-bottom: 6vh;
+}
+
+.visualCopy > span {
+  color: #8c90ff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.visualCopy h1 {
+  max-width: 580px;
+  margin: 18px 0;
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -.05em;
+}
+
+.visualCopy p {
+  max-width: 520px;
+  color: #aeb7c7;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.visualStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.visualStats div {
+  padding: 18px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+}
+
+.visualStats strong,
+.visualStats small {
+  display: block;
+}
+
+.visualStats strong {
+  font-size: 22px;
+}
+
+.visualStats small {
+  margin-top: 6px;
+  color: #9da8bb;
+}
+
+.visualFooter {
+  color: #657086;
+  font-size: 11px;
+}
+
+.formSide {
+  display: grid;
+  place-items: center;
+  padding: 40px;
+}
+
+.formCard {
+  width: min(440px, 100%);
+}
+
+.formCard > span {
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.formCard h2 {
+  margin: 12px 0 8px;
+  font-size: 32px;
+  letter-spacing: -.04em;
+}
+
+.formCard > p {
+  margin: 0 0 30px;
+  color: var(--muted);
+}
+
+.formCard :global(.ant-input-affix-wrapper) {
+  height: 48px;
+  border-color: var(--border);
+  border-radius: 10px;
+}
+
+.alert {
+  margin-bottom: 18px;
+}
+
+.formMeta {
+  display: flex;
+  justify-content: space-between;
+  margin: -4px 0 24px;
+}
+
+.formMeta button {
+  color: var(--primary);
+  border: 0;
+  background: transparent;
+}
+
+.submit {
+  height: 48px !important;
+  background: var(--primary) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 24px rgba(91, 92, 226, .25);
+}
+
+.demo {
+  margin-top: 24px;
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  background: #f0f1ff;
+  border-radius: 10px;
+}
+
+.demo strong {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .visual {
+    min-height: 320px;
+    padding: 28px;
+  }
+
+  .visualCopy {
+    margin: 50px 0 0;
+  }
+
+  .visualCopy h1 {
+    font-size: 36px;
+  }
+
+  .visualFooter {
+    display: none;
+  }
+}
+

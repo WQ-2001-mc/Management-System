@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id          String          @id @default(cuid())
+  name        String
+  code        String          @unique
+  departments Department[]
+  users       User[]
+  customers   Customer[]
+  projects    Project[]
+  contracts   Contract[]
+  approvals   ApprovalRequest[]
+  files       FileAsset[]
+  auditLogs   AuditLog[]
+  settings    SystemSetting[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Department {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  lead      String?
+  parentId  String?
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+model User {
+  id           String      @id @default(cuid())
+  tenantId     String
+  tenant       Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+  name         String
+  email        String      @unique
+  passwordHash String
+  title        String?
+  role         String
+  status       String      @default("ACTIVE")
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([tenantId])
+  @@index([departmentId])
+}
+
+model Customer {
+  id         String    @id @default(cuid())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  code       String
+  name       String
+  industry   String
+  region     String
+  level      String
+  owner      String
+  contact    String?
+  phone      String?
+  value      Decimal   @default(0)
+  status     String
+  projects   Project[]
+  contracts  Contract[]
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId, name])
+}
+
+model Project {
+  id         String    @id @default(cuid())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  code       String
+  name       String
+  owner      String
+  budget     Decimal   @default(0)
+  progress   Int       @default(0)
+  status     String
+  deadline   DateTime?
+  members    Int       @default(1)
+  contracts  Contract[]
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+}
+
+model Contract {
+  id         String    @id @default(cuid())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  projectId  String?
+  project    Project?  @relation(fields: [projectId], references: [id])
+  number     String
+  name       String
+  owner      String
+  amount     Decimal
+  collected  Decimal   @default(0)
+  status     String
+  signedAt   DateTime?
+  expiresAt  DateTime?
+  payments   PaymentRecord[]
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([tenantId, number])
+  @@index([tenantId, status])
+}
+
+model PaymentRecord {
+  id         String   @id @default(cuid())
+  contractId String
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  amount     Decimal
+  paidAt     DateTime
+  reference  String?
+  createdAt  DateTime @default(now())
+
+  @@index([contractId])
+}
+
+model ApprovalRequest {
+  id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  code        String
+  title       String
+  type        String
+  applicant   String
+  amount      Decimal?
+  status      String
+  currentStep String
+  submittedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+}
+
+model FileAsset {
+  id         String   @id @default(cuid())
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name       String
+  mimeType   String
+  size       Int
+  storageKey String
+  owner      String
+  relatedTo  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  actor      String
+  action     String
+  entityType String
+  entityId   String?
+  detail     String?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([tenantId, createdAt])
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, key])
+}
+

@@ -1,0 +1,287 @@
+.shell {
+  --sidebar-width: 232px;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--canvas);
+  transition: grid-template-columns 180ms ease;
+}
+
+.collapsed {
+  --sidebar-width: 76px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: white;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(91, 92, 226, 0.2), transparent 28%),
+    var(--sidebar);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 72px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  color: white;
+  font-weight: 800;
+  font-size: 18px;
+  background: linear-gradient(135deg, #7778ff, #2bc9e3);
+  border-radius: 11px 4px 11px 4px;
+  box-shadow: 0 8px 22px rgba(91, 92, 226, 0.35);
+}
+
+.brand strong,
+.brand small,
+.profile strong,
+.profile small {
+  display: block;
+}
+
+.brand strong {
+  letter-spacing: 0.16em;
+}
+
+.brand small {
+  margin-top: 3px;
+  color: #9da6ba;
+  font-size: 11px;
+}
+
+.nav {
+  display: grid;
+  gap: 5px;
+  padding: 18px 12px;
+}
+
+.navItem,
+.quickItem,
+.collapseButton {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 44px;
+  padding: 0 14px;
+  color: var(--sidebar-muted);
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  transition: all 160ms ease;
+}
+
+.navItem :global(.anticon) {
+  font-size: 18px;
+}
+
+.navItem:hover,
+.quickItem:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navItem.active {
+  color: white;
+  background: linear-gradient(110deg, #5b5ce2, #5055ee);
+  box-shadow: 0 8px 24px rgba(68, 70, 214, 0.3);
+}
+
+.quick {
+  display: grid;
+  gap: 2px;
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navCaption {
+  padding: 0 14px 9px;
+  color: #626d83;
+  font-size: 11px;
+}
+
+.quickItem {
+  min-height: 36px;
+  font-size: 13px;
+}
+
+.quickItem :global(.ant-badge) {
+  margin-left: auto;
+}
+
+.quickDot {
+  width: 6px;
+  height: 6px;
+  background: #6c70ff;
+  border-radius: 50%;
+}
+
+.collapseButton {
+  margin: 6px 12px 14px;
+  cursor: pointer;
+}
+
+.main {
+  min-width: 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 480px) minmax(330px, 1fr);
+  align-items: center;
+  height: 72px;
+  padding: 0 28px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+
+.company,
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.companyIcon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  font-size: 13px;
+  background: var(--primary);
+  border-radius: 8px;
+}
+
+.chevron {
+  color: var(--muted);
+}
+
+.search {
+  height: 40px;
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+
+.headerActions {
+  justify-content: flex-end;
+}
+
+.headerActions :global(.ant-btn-primary) {
+  height: 38px;
+  padding-inline: 18px;
+  background: var(--primary);
+  border-radius: 9px;
+  box-shadow: 0 7px 18px rgba(91, 92, 226, 0.22);
+}
+
+.profile {
+  line-height: 1.25;
+}
+
+.profile small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.contextBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 28px;
+  color: var(--muted);
+  font-size: 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.contextBar > div {
+  display: flex;
+  gap: 9px;
+}
+
+.contextBar strong {
+  color: var(--text);
+}
+
+.sync {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--success);
+}
+
+.content {
+  padding: 26px 28px 40px;
+}
+
+@media (max-width: 1120px) {
+  .header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .search {
+    display: none;
+  }
+
+  .profile {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    --sidebar-width: 68px;
+  }
+
+  .brand > span:last-child,
+  .navItem span,
+  .quick,
+  .collapseButton span,
+  .company strong,
+  .chevron {
+    display: none;
+  }
+
+  .brand {
+    padding: 0 14px;
+  }
+
+  .header {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .headerActions {
+    gap: 3px;
+  }
+
+  .contextBar {
+    padding-inline: 16px;
+  }
+
+  .content {
+    padding: 18px 14px 32px;
+  }
+}
+

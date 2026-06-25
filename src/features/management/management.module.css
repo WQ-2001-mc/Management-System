@@ -1,0 +1,358 @@
+.pageHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  max-width: 1680px;
+  margin: 0 auto 22px;
+}
+
+.pageHeading p {
+  margin: 0 0 7px;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.pageHeading h1 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -.035em;
+}
+
+.pageHeading span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.headingActions {
+  display: flex;
+  gap: 8px;
+}
+
+.headingActions :global(.ant-btn) {
+  height: 39px;
+  border-radius: 9px;
+}
+
+.headingActions :global(.ant-btn-primary) {
+  background: var(--primary);
+}
+
+.statRow,
+.departmentGrid,
+.analyticsGrid,
+.systemGrid,
+.tableCard,
+.storageHero {
+  max-width: 1680px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.statRow {
+  margin-bottom: 16px;
+}
+
+.statRow :global(.ant-card),
+.departmentGrid :global(.ant-card),
+.analyticsGrid :global(.ant-card),
+.systemGrid :global(.ant-card),
+.tableCard {
+  height: 100%;
+  border-color: var(--border);
+  border-radius: 13px;
+  box-shadow: 0 4px 18px rgba(31, 38, 72, .04);
+}
+
+.statRow :global(.ant-statistic-content) {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.positive {
+  display: block;
+  margin-top: 8px;
+  color: var(--success);
+  font-size: 12px;
+}
+
+.analyticsGrid,
+.systemGrid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metricList {
+  display: grid;
+  gap: 22px;
+  padding: 10px;
+}
+
+.metricList > div > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.departmentGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.departmentGrid :global(.ant-card-body) {
+  padding: 16px;
+}
+
+.departmentCard {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 11px;
+  align-items: center;
+}
+
+.departmentCard > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+.departmentCard strong,
+.departmentCard small {
+  display: block;
+}
+
+.departmentCard small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.departmentCard b {
+  font-size: 20px;
+}
+
+.departmentCard b small {
+  display: inline;
+  margin-left: 3px;
+  font-size: 10px;
+}
+
+.tableCard {
+  margin-bottom: 16px;
+}
+
+.tableCard :global(.ant-card-body) {
+  padding: 18px 20px 6px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.toolbar > :global(.ant-input-affix-wrapper) {
+  width: min(420px, 50%);
+  height: 38px;
+  background: var(--surface-2);
+  border-color: transparent;
+  border-radius: 9px;
+}
+
+.person,
+.fileName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.person strong,
+.person small,
+.fileName strong,
+.fileName small {
+  display: block;
+}
+
+.person small,
+.fileName small,
+.block {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.linkButton {
+  padding: 0;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.linkButton strong,
+.linkButton small {
+  display: block;
+}
+
+.linkButton:hover strong {
+  color: var(--primary);
+}
+
+.progressCell {
+  width: 150px;
+}
+
+.progressCell small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  min-height: 390px;
+}
+
+.kanban > div {
+  padding: 12px;
+  background: var(--surface-2);
+  border-radius: 12px;
+}
+
+.kanban h3 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+
+.kanban :global(.ant-card) {
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.kanban :global(.ant-card-body) > strong,
+.kanban :global(.ant-card-body) > small,
+.kanban :global(.ant-card-body) > span {
+  display: block;
+}
+
+.kanban :global(.ant-card-body) > small,
+.kanban :global(.ant-card-body) > span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.storageHero {
+  display: grid;
+  grid-template-columns: 1fr 280px auto;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 22px 26px;
+  background: linear-gradient(100deg, #f0f0ff, #eefbfc);
+  border: 1px dashed #b8baef;
+  border-radius: 13px;
+}
+
+.storageHero > div {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.storageHero > div > :global(.anticon) {
+  color: var(--primary);
+  font-size: 30px;
+}
+
+.storageHero strong,
+.storageHero span {
+  display: block;
+}
+
+.storageHero span,
+.storageHero small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.fileName > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--primary);
+  background: #f0f0ff;
+  border-radius: 9px;
+}
+
+.check {
+  color: var(--success);
+  font-size: 16px;
+}
+
+.noAccess {
+  color: #b8bdca;
+}
+
+.drawerTitle {
+  margin-top: 28px;
+}
+
+@media (max-width: 1200px) {
+  .departmentGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .kanban {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .pageHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .analyticsGrid,
+  .systemGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .departmentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toolbar > :global(.ant-input-affix-wrapper) {
+    width: 100%;
+  }
+
+  .storageHero {
+    grid-template-columns: 1fr;
+  }
+}
+
