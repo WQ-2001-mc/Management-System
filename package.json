@@ -13,7 +13,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push",
+    "db:push": "tsx scripts/ensure-sqlite.ts && prisma db push",
     "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
