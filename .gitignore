@@ -7,6 +7,9 @@ node_modules/
 coverage/
 dist/
 *.log
+*.tsbuildinfo
 .superpowers/
 .worktrees/
-
+prisma/*.db
+prisma/*.db-journal
+uploads/
