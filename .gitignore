@@ -8,4 +8,5 @@ coverage/
 dist/
 *.log
 .superpowers/
+.worktrees/
 
