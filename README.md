@@ -96,6 +96,7 @@ curl -X POST http://localhost:3000/api/customers \
 GitHub Actions 在每次提交和 Pull Request 上执行 Prisma Client 生成、Lint、类型检查、单元测试和生产构建。
 
 架构说明见 [docs/architecture.md](docs/architecture.md)，详细设计见 [系统设计规格](docs/superpowers/specs/2026-06-25-enterprise-data-management-system-design.md)。
+版本维护记录见 [docs/maintenance-log.md](docs/maintenance-log.md)。
 
 ## License
 
