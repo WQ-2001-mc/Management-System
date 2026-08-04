@@ -179,8 +179,37 @@
 
 .search {
   height: 40px;
+}
+
+.search :global(.ant-select) {
+  width: 100%;
+}
+
+.search :global(.ant-input-affix-wrapper) {
+  height: 40px;
   background: var(--surface-2);
   border-radius: 10px;
+}
+
+.search kbd {
+  padding: 2px 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.searchOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.searchOption small {
+  color: var(--muted);
 }
 
 .headerActions {
@@ -284,4 +313,3 @@
     padding: 18px 14px 32px;
   }
 }
-

@@ -26,7 +26,7 @@ Next.js 16 · React 19 · TypeScript · Ant Design 6 · ECharts 6 · Prisma 6 ·
 要求 Node.js 22 LTS。
 
 ```bash
-git clone https://github.com/HXB-1997/Management-System.git
+git clone https://github.com/WQ-2001-mc/Management-System.git
 cd Management-System
 cp .env.example .env
 npm install

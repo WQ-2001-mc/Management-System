@@ -19,25 +19,38 @@ import {
   SunOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { Avatar, Badge, Button, Dropdown, Input, Tooltip } from "antd";
+import { AutoComplete, Avatar, Badge, Button, Dropdown, Input, Tooltip } from "antd";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { appNavigation, searchNavigation } from "@/lib/app-navigation";
+import {
+  parseCollapsedPreference,
+  parseThemePreference,
+  sidebarStorageKey,
+  themeStorageKey,
+} from "@/lib/ui-preferences";
 
 import styles from "./app-shell.module.css";
 
-const navigation = [
-  { href: "/dashboard", label: "工作台", icon: AppstoreOutlined },
-  { href: "/analytics", label: "数据洞察", icon: BarChartOutlined },
-  { href: "/organization", label: "组织人员", icon: TeamOutlined },
-  { href: "/customers", label: "客户中心", icon: CustomerServiceOutlined },
-  { href: "/projects", label: "项目交付", icon: ProjectOutlined },
-  { href: "/contracts", label: "合同回款", icon: FileTextOutlined },
-  { href: "/files", label: "文件资产", icon: FolderOpenOutlined },
-  { href: "/approvals", label: "审批流程", icon: CheckSquareOutlined },
-  { href: "/system", label: "系统管理", icon: SettingOutlined },
-];
+const icons = {
+  "/dashboard": AppstoreOutlined,
+  "/analytics": BarChartOutlined,
+  "/organization": TeamOutlined,
+  "/customers": CustomerServiceOutlined,
+  "/projects": ProjectOutlined,
+  "/contracts": FileTextOutlined,
+  "/files": FolderOpenOutlined,
+  "/approvals": CheckSquareOutlined,
+  "/system": SettingOutlined,
+} as const;
+
+const navigation = appNavigation.map((item) => ({
+  ...item,
+  icon: icons[item.href as keyof typeof icons],
+}));
 
 const quickLinks = [
   { href: "/approvals", label: "我的待办", count: 12 },
@@ -47,12 +60,38 @@ const quickLinks = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchRef = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [dark, setDark] = useState(false);
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const storedTheme = parseThemePreference(localStorage.getItem(themeStorageKey));
+    const storedCollapsed = parseCollapsedPreference(localStorage.getItem(sidebarStorageKey));
+    setDark(storedTheme ? storedTheme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches);
+    setCollapsed(storedCollapsed ?? false);
+  }, []);
 
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
+    localStorage.setItem(themeStorageKey, dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    localStorage.setItem(sidebarStorageKey, String(collapsed));
+  }, [collapsed]);
+
+  useEffect(() => {
+    const focusSearch = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        searchRef.current?.querySelector("input")?.focus();
+      }
+    };
+    window.addEventListener("keydown", focusSearch);
+    return () => window.removeEventListener("keydown", focusSearch);
+  }, []);
 
   const current = useMemo(
     () => navigation.find((item) => pathname.startsWith(item.href)),
@@ -98,7 +137,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           ))}
         </div>
 
-        <button className={styles.collapseButton} onClick={() => setCollapsed((value) => !value)}>
+        <button
+          className={styles.collapseButton}
+          onClick={() => setCollapsed((value) => !value)}
+          aria-expanded={!collapsed}
+          aria-label={collapsed ? "展开导航" : "收起导航"}
+          title={collapsed ? "展开导航" : "收起导航"}
+        >
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           {!collapsed && <span>收起导航</span>}
         </button>
@@ -111,12 +156,24 @@ export function AppShell({ children }: { children: ReactNode }) {
             <strong>启衡科技（上海）有限公司</strong>
             <span className={styles.chevron}>⌄</span>
           </div>
-          <Input
-            className={styles.search}
-            prefix={<SearchOutlined />}
-            placeholder="搜索客户、项目、合同（⌘K）"
-            variant="borderless"
-          />
+          <div className={styles.search} ref={searchRef}>
+            <AutoComplete
+              value={query}
+              onChange={setQuery}
+              onSelect={(href) => {
+                setQuery("");
+                router.push(href);
+              }}
+              options={searchNavigation(query).map((item) => ({
+                value: item.href,
+                label: <span className={styles.searchOption}><strong>{item.label}</strong><small>{item.href}</small></span>,
+              }))}
+              placeholder="搜索功能页面"
+              aria-label="搜索功能页面"
+            >
+              <Input prefix={<SearchOutlined />} suffix={<kbd>⌘K</kbd>} variant="borderless" />
+            </AutoComplete>
+          </div>
           <div className={styles.headerActions}>
             <Dropdown
               menu={{
@@ -130,9 +187,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               <Button type="primary" icon={<PlusOutlined />}>新建</Button>
             </Dropdown>
-            <Badge count={12} size="small"><Button type="text" icon={<BellOutlined />} /></Badge>
-            <Button type="text" icon={dark ? <SunOutlined /> : <MoonOutlined />} onClick={() => setDark((value) => !value)} />
-            <Avatar src="https://i.pravatar.cc/80?img=12">李</Avatar>
+            <Tooltip title="通知中心"><Badge count={12} size="small"><Button aria-label="通知中心" type="text" icon={<BellOutlined />} /></Badge></Tooltip>
+            <Tooltip title={dark ? "切换浅色主题" : "切换深色主题"}>
+              <Button aria-label={dark ? "切换浅色主题" : "切换深色主题"} type="text" icon={dark ? <SunOutlined /> : <MoonOutlined />} onClick={() => setDark((value) => !value)} />
+            </Tooltip>
+            <Avatar>李</Avatar>
             {!collapsed && (
               <div className={styles.profile}>
                 <strong>李明远</strong>
@@ -155,4 +214,3 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
